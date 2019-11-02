@@ -11,6 +11,7 @@ linearregr.py --data <PathToData> --learningRate <LearningRate> --threshold <Thr
 ```
 
 Two data sets are given named random.csv and yacht.csv which can be used in this program
+
 For example, the script can be run as follows 
 ```{r, engine='python', count_lines}
 linearregr.py --data yacht.csv --learningRate 0.0001 --threshold 0.0001
