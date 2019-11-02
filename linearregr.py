@@ -59,8 +59,16 @@ def recalculate_weights(weights, gradients, learning_rate):
 def write_to_csv(data, csv_name):
 
     with open(csv_name, mode='a') as employee_file:
-        employee_writer = csv.writer(employee_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        employee_writer = csv.writer(employee_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL,
+                                     lineterminator='\n')
         employee_writer.writerow(data)
+
+
+def generate_csv_name(data, learning_rate, threshold):
+
+    name = "mohammed_solution_"
+    name = name+data[:-4]+"_eta"+str(learning_rate)+"_thres"+str(threshold)+".csv"
+    return name
 
 
 def main(argv):
@@ -88,7 +96,6 @@ def main(argv):
     for currentArgument, currentValue in arguments:
         if currentArgument in ("-h", "--help"):
             print("linearregr.py --data <PathToData> --learningRate <LearningRate> --threshold <Threshold>")
-
             sys.exit()
         elif currentArgument in ("-d", "--data"):
             file_name = currentValue
@@ -96,6 +103,9 @@ def main(argv):
             learning_rate = float(currentValue)
         elif currentArgument in ("-t", "--threshold"):
             threshold = float(currentValue)
+
+    output_file_name = generate_csv_name(file_name,learning_rate,threshold)
+    #print(output_file_name)
 
     # print(threshold)
     data = read_csv(file_name)
@@ -109,7 +119,10 @@ def main(argv):
 
     previous_squared_error = 0
 
-    for x in range(100000000):
+    print("Running...")
+
+    for x in range(sys.maxsize):
+
         prediction = calculate_outputs(data, weights)
         # print(prediction)
 
@@ -122,9 +135,9 @@ def main(argv):
             out_list.append(round(w,4))
         out_list.append(sose)
 
-        print(out_list)
+        # print(out_list)
 
-        write_to_csv(out_list, "test.csv")
+        write_to_csv(out_list, output_file_name)
 
         ''' End of execution as squared errors reached the threshold '''
         if(abs(round(sose - previous_squared_error, 4))) < threshold:
@@ -143,6 +156,7 @@ def main(argv):
     # prediction = calculate_outputs(data, weights)
     # sose = sum_of_squared_errors(data, prediction)
 
+    print ("\nExecution complete.\nOutput stored in >> ",output_file_name)
 
 if __name__ == '__main__':
     main(sys.argv[1:])
