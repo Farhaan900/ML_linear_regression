@@ -10,12 +10,16 @@ import csv
 from decimal import Decimal
 
 
+''' reads the csv file and returns the data '''
 def read_csv(csv_name):
+
     data = np.genfromtxt(csv_name, delimiter=",")
     return data
 
 
+''' returns the prediction for curent weights '''
 def calculate_outputs(data, weights):
+
     x = data[:, :len(data[0])-1]
     pred_y = x * weights
     pred_y = list(map(sum, pred_y))
@@ -23,6 +27,7 @@ def calculate_outputs(data, weights):
     return pred_y
 
 
+''' returns the su, of squared errors '''
 def sum_of_squared_errors(data, prediction):
 
     y = (data[:, len(data[0])-1:]).ravel()
@@ -34,6 +39,7 @@ def sum_of_squared_errors(data, prediction):
     return total
 
 
+''' calculates gradient '''
 def calculate_gradient(data, prediction):
 
     gradients = []
@@ -50,12 +56,14 @@ def calculate_gradient(data, prediction):
     return gradients
 
 
+''' calculates and returns new weights '''
 def recalculate_weights(weights, gradients, learning_rate):
 
     new_weights = weights + [x*learning_rate for x in gradients]
     return new_weights
 
 
+''' writes data to the csv file '''
 def write_to_csv(data, csv_name):
 
     with open(csv_name, mode='a') as employee_file:
@@ -64,6 +72,7 @@ def write_to_csv(data, csv_name):
         employee_writer.writerow(data)
 
 
+''' generates a name for the csv file '''
 def generate_csv_name(data, learning_rate, threshold):
 
     name = "mohammed_solution_"
