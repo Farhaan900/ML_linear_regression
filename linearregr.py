@@ -75,8 +75,7 @@ def write_to_csv(data, csv_name):
 ''' generates a name for the csv file '''
 def generate_csv_name(data, learning_rate, threshold):
 
-    name = "mohammed_solution_"
-    name = name+data[:-4]+"_eta"+str(learning_rate)+"_thres"+str(threshold)+".csv"
+    name = data[:-4]+"_eta"+str(learning_rate)+"_thres"+str(threshold)+".csv"
     return name
 
 
